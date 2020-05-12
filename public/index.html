@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="/style.css">
+    <link rel="shortcut icon" href="faviconfplc.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <title>FPL League Centre</title>
+    <script src="https://kit.fontawesome.com/8b0424c581.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id='idInfo' class="hidden">
+    <div id="idExplain">
+        <i id="exitIdExpl" class='far fa-times-circle'></i>
+        <div class="idExplainHeader"><h3>How To Find The Team ID</h3></div>
+        <h4>Find your own team ID</h4>
+        <p><span class="bold">1. </span>Log in and go to the points tab</p>
+        <img src="pointsImage.png" alt="points tab">
+        <p><span class="bold">2. </span>Copy your team ID from the URL</p>
+        <img src="findId.png" alt="where to find ID">
+        <h4 id="findId2">Find another teams ID</h4>
+        <p><span class="bold">1. </span>Go to the team page of the team you want the ID of</p>
+        <p><span class="bold">2. </span>Copy the team ID from the URL</p>
+        <img src="findId.png" alt="where to find ID">
+    </div>
+</div>
+<div id="header" class="header">
+<div class="headerLogo"><h1>FPL LEAGUE CENTRE <span><i class="fas fa-futbol"></i></span></h1></div>
+</div>
+<div id="leagueLinkBox" class="floatRight"><a class="leagueLink" href="/league"><span class="leagueSavedText">You have a league saved</span>  <i class="fas fa-arrow-right"></i></a></div>
+
+<div id="siteInfo" class="info">
+    <h1 class="welcome">Welcome to FPL League Centre!</h1>
+    <h1 class="welcomeMobile">Welcome to <div class="newRow">FPL League Centre!</div></h1>
+    <div class="welcomeExtra">Create your own league with whoever you want.</div>
+    <div class="infoExpl">
+        <div class="infoBox"> <div class="infoIcon"><i class="fas fa-user-plus"></i></div><h4>Add Managers</h4>Add any manager to your league with their ID. Maybe you want to add a famous FPL manager like Magnus Carlsen? Mix your league with friends and your favourite FPL managers.</div>
+        <div class="infoBox"><div class="infoIcon"><i class="far fa-chart-bar"></i></div><h4>View League Stats</h4>View stats for your league and follow which transfers your competitors make. See which players are differentials in just your league.</div>
+        <div class="infoBox last"><div class="infoIcon"><i class="fas fa-share-square"></i></div><h4>Save and share</h4>Save your league and follow how the standings change. Share it with friends and let them know how bad they are! </div>
+    </div>
+    
+</div>
+<div class="inputArea">
+    <h3 class="inputHeader">Get Started With FPL League Centre</h3>
+    <h4>Enter League Code</h4>
+    <div class="enterLeagueCode">
+        
+        <input type="text" name="leagueCode" id="leagueCode" placeholder="League Code" class="homeInput">
+        <button  type="submit"  id="enterCode" class="homeButton"><i  class='fas fa-arrow-right'></i></button>
+        
+        
+    </div>
+    <p class='seperator'>or<p>
+    <h4 id="titleCreateLeague">Create New League</h4>
+    <div class="addByIdInfo"><p class="helpText">Add manager by Team ID</p><i id="getIdInfo" class="fas fa-question-circle"></i></div>
+    <div class="createLeague">
+        <div class="addById">    
+            <input type="text" name="teamId" id="teamId" placeholder="Team ID" class="homeInput">
+            <button  type="button"  id="enterId" class="homeButton"><i class="fas fa-plus"></i></button>
+        </div>
+    
+        <p class="helpText">Add famous manager</p>
+        <div class="famousManagers">  <div class="selectDiv">
+            <select class="selectManager" id="selectManager">
+              <option value="0">Select Manager</option>
+              <option value="1908330">Magnus Carlsen</option>
+              <option value="3041">Ben Crellin</option>
+              <option value="1481271">Ville Rönkä</option>
+              <option value="3887801">Alexander-Arnold</option>
+              <option value="1768875">Callum Wilson</option>
+              <option value="2228502">Daniel James</option>
+              <option value="4736673">Troy Deeney</option>
+              <option value="3823095">Chris Smalling</option>
+              <option value="5324569">Peter Crouch</option>
+              <option value="3145872">Shane Duffy</option>
+              <option value="5030337">Leandro Trossard</option>
+            </select>
+          </div>
+          <button  type="button"  id="enterManager" class="homeButton"><i class="fas fa-plus"></i></button>
+    
+        </div>
+    </div>
+      
+    <div id="showAddedTeams" class="hidden">
+        <div class="previewPlayerInfo">
+            <div class="previewName"><h5>Manager</h5></div>
+            <div class="previewTeamName"><h5>Team Name</h5></div>
+            <div class="previewRemove"></div>
+            </div>
+    </div>
+    <div id="loader" class="loader hidden"></div>
+    <button id="continueLeague" class="hidden">CONTINUE<span><i  class='fas fa-arrow-right'></i></span></button>
+</div>
+
+
+<footer><p>Created by Isak Jensen</p></footer>
+<script src="script.js"></script>
+<script src="login.js"></script>
+</body>
+</html>

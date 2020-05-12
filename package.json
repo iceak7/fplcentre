@@ -1,0 +1,26 @@
+{
+  "name": "fplleaguecentre",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iceak7/fplcentre.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iceak7/fplcentre/issues"
+  },
+  "homepage": "https://github.com/iceak7/fplcentre#readme",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
