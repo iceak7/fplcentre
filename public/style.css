@@ -15,6 +15,25 @@
 
 }
 
+.loginIconDiv{
+    height:100%;
+    display:flex;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 10px;
+}
+
+#loginIcon{
+    font-size: 26px;
+    cursor: pointer;
+    
+}
+
+#logoutIcon{
+    font-size: 26px;
+    cursor: pointer;
+    
+}
 
 #homeLinkBox{
     display:flex;
@@ -75,6 +94,70 @@
       font-weight: bold;
   }
 
+/* ------Login--------*/
+#loginBackgroundDiv{
+    margin: auto;
+    margin-top: 0;
+    text-align: center;
+    position: fixed;
+    z-index: 900;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: block;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+}
+
+#loginDiv{
+    width: 80%;
+    height: 500px;
+    padding: 4px 0px 30px 0px;
+    max-width: 600px;
+    margin: auto;
+    background-color: white;
+}
+
+#loginDivContainer{
+    width:100%;
+    height:100%;
+    
+}
+
+#loginDiv input{
+    margin:2px;
+}
+
+#exitLogin{
+    font-size: 25px;
+    cursor: pointer;
+    float: right;   
+}
+
+#loginTitle{
+    width:100%;
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+.loginButton{
+    padding:1px 5px;
+    cursor: pointer;
+}
+
+#createAccFromLogin{
+    margin-top: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#loginCreateAcc{
+
+    margin-top:10px;
+    width:100%;
+    height:200px;
+    background-color: #dbdbdb;
+}
 
 /* --------Info------ */
 .info{
