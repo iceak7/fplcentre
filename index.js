@@ -61,14 +61,11 @@ app.get("/league", (req, res, next)=>{
 
 
 app.post('/register',validateUser, async(req,res)=>{
-
     let user = {...req.body};
-
     let userCheck;
     try{
         userCheck = await colUsers.find({email:user.email}).toArray();
     }
-
     catch{
         console.log("Error finding user");
     }
@@ -79,12 +76,13 @@ app.post('/register',validateUser, async(req,res)=>{
             let userId= Date.now();
             let password= await bcrypt.hash(user.password, 12);
             const newUser={email: user.email, password: password, userId: userId};
-
             await colUsers.insertOne(newUser);
-            console.log("success adding user")
+            let token = jwt.sign({email:user.email},process.env.fplSecret,{
+                expiresIn:86400000
+            });
+            res.cookie('token',token,{httpOnly:true,sameSite:'strict', maxAge: 86400000});
             res.send({mes:"User Created"});
         }
-
         catch{
             console.log("Error adding user")
         }
@@ -109,6 +107,8 @@ app.post('/register',validateUser, async(req,res)=>{
 
 app.post("/login",validateUser, async(req,res)=>{
 
+
+    
     /**
      * 1. läs in body
      * 2. validera body!!
@@ -117,6 +117,7 @@ app.post("/login",validateUser, async(req,res)=>{
      * 5. skicka response
      * 
      */
+
     let user = {...req.body};
 
     let userCheck;
@@ -133,22 +134,18 @@ app.post("/login",validateUser, async(req,res)=>{
 
             if(success){
 
-
                 let token = jwt.sign({email:user.email},process.env.fplSecret,{
                     expiresIn:86400000
                 });
                 res.cookie('token',token,{httpOnly:true,sameSite:'strict', maxAge: 86400000});
                 res.status(202).send({mes:"logged in"});
 
-
             }
             else
             {
                 res.send({mes:"bad request"});
             }
-
         });
-
     }
     else
     {res.status(400).send({mes:"No user"})}

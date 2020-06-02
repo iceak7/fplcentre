@@ -80,10 +80,8 @@ function getLoginView(){
 
 
 async function login(e){
-
     _id("loginErrorMes").innerHTML="";
     e.preventDefault();
-
     let email = _id("email").value;
     let password = _id("password").value;
     let user = {email,password};
@@ -98,10 +96,8 @@ async function login(e){
         body:JSON.stringify(user)
     });
     response = await response.json();
-    console.log(response);
     if(response.mes=="logged in"){
         _id("loginDivContainer").innerHTML="<h2>You are logged in!</h2><h3>Welcome!</h3>"
-        
         _id("loginIcon").remove();
         _id("header").insertAdjacentHTML("beforeend", "<div class='loginIconDiv'> <i title='Log Out' id='logoutIcon' class='fas fa-sign-out-alt'></i> </>");
         _id("logoutIcon").addEventListener("click", async()=>{
@@ -113,7 +109,6 @@ async function login(e){
                 _id("header").insertAdjacentHTML("beforeend", "<div class='loginIconDiv'> <i title='Log In' id='loginIcon' class='fas fa-sign-in-alt'></i> </>");
                 _id("loginIcon").addEventListener("click", getLoginView);
             }
-
         });
     }
     else{
