@@ -1,4 +1,6 @@
-let teamIds = JSON.parse(getCookie("leagueIds"));
+//let teamIds = JSON.parse(getCookie("leagueIds"));
+let teamIds;
+
 let currentGW;
 let playerDataArr = [];
 let playerPerTeamArr = [];
@@ -8,6 +10,7 @@ let site = "league";
 (async function () {
   /// måste köras när getPlayers är klar..
   try {
+    teamIds = await getTeamIds();
     playerDataArr = await getPlayers();
     currentGW = playerDataArr[0].current_event;
     playerDataArr.sort(function (a, b) {
@@ -31,6 +34,36 @@ let site = "league";
     console.log("Error:" + error.message);
   }
 })();
+
+async function getTeamIds() {
+  let managerIds;
+  let path = window.location.pathname;
+  console.log(path.length + " path: '" + path + "'");
+  if (path.length > 8) {
+    let sliceTest = path.slice(8);
+    let code = sliceTest.replace("/", "");
+    console.log(path.length + " path: '" + code + "'");
+    managerIds = [];
+  } else {
+    let response = await fetch("/getTeamByLogin", {
+      method: "post",
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    response = await response.json();
+
+    if (response.mes === "success") {
+      managerIds = response.ids;
+    } else {
+      managerIds = JSON.parse(getCookie("leagueIds"));
+    }
+  }
+
+  return managerIds;
+}
 
 async function getPlayers() {
   let playerArr = [];

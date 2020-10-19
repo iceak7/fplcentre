@@ -1,8 +1,14 @@
 getLogInIcon();
 
 async function getLogInIcon() {
-  let response = await fetch("/loggedIn");
-
+  let response = await fetch("/loggedIn", {
+    method: "post",
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
   let resp = await response.json();
 
   if (resp.mes === "logged in") {
@@ -11,15 +17,22 @@ async function getLogInIcon() {
       "<div class='loginIconDiv'> <i title='Sign Out' id='logoutIcon' class='fas fa-sign-out-alt'></i> </>"
     );
     _id("logoutIcon").addEventListener("click", async () => {
-      let response = await fetch("/logOut");
-      let respon = await response.json();
+      let responseLogOut = await fetch("/logOut", {
+        method: "post",
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+      let respLogOut = await responseLogOut.json();
 
       if (site === "index") {
         _id("notLoggedInContinue").classList.remove("hidden");
         _id("saveLeague").classList.add("hidden");
       }
 
-      if (respon.mes === "logged out") {
+      if (respLogOut.mes === "logged out") {
         _id("logoutIcon").remove();
         _id("header").insertAdjacentHTML(
           "beforeend",
@@ -99,8 +112,8 @@ async function login(e) {
     },
     body: JSON.stringify(user),
   });
-  response = await response.json();
-  if (response.mes == "logged in") {
+  let resp = await response.json();
+  if (resp.mes == "logged in") {
     _id("loginDivContainer").innerHTML =
       "<h2>You are logged in!</h2><h3>Welcome!</h3>";
     _id("loginIcon").remove();
@@ -114,10 +127,17 @@ async function login(e) {
       _id("saveLeague").classList.remove("hidden");
     }
     _id("logoutIcon").addEventListener("click", async () => {
-      let response = await fetch("/logOut");
-      let respon = await response.json();
+      let responseLogOut = await fetch("/logOut", {
+        method: "post",
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+      let respLogOut = await responseLogOut.json();
 
-      if (respon.mes === "logged out") {
+      if (respLogOut.mes === "logged out") {
         _id("logoutIcon").remove();
         _id("header").insertAdjacentHTML(
           "beforeend",

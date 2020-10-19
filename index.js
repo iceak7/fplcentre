@@ -40,8 +40,20 @@ app.get("/", (req, res) => {
 
 app.get(
   "/league",
-  (req, res, next) => {
-    if (req.cookies.leagueIds) {
+  async (req, res, next) => {
+    const token = req.cookies.token;
+    if (token) {
+      try {
+        let user = jwt.verify(token, process.env.fplSecret);
+        next();
+      } catch (error) {
+        if (req.cookies.leagueIds) {
+          next();
+        } else {
+          res.redirect("/");
+        }
+      }
+    } else if (req.cookies.leagueIds) {
       next();
     } else {
       res.redirect("/");
@@ -51,6 +63,10 @@ app.get(
     res.sendFile(__dirname + "/public/LeagueView/index.html");
   }
 );
+
+app.get("/league/:code", async (req, res) => {
+  res.sendFile(__dirname + "/public/LeagueView/index.html");
+});
 
 app.post("/register", validateUser, async (req, res) => {
   let user = { ...req.body };
@@ -92,20 +108,6 @@ app.post("/register", validateUser, async (req, res) => {
    */
 });
 
-app.get(
-  "/league",
-  (req, res, next) => {
-    if (req.cookies.leagueIds) {
-      next();
-    } else {
-      res.redirect("/");
-    }
-  },
-  (req, res) => {
-    res.sendFile(__dirname + "/public/LeagueView/index.html");
-  }
-);
-
 app.post("/saveTeam", auth, async (req, res) => {
   const token = req.cookies.token;
 
@@ -121,14 +123,13 @@ app.post("/saveTeam", auth, async (req, res) => {
     } catch (error) {
       res.send({ mes: "error stage 1" });
     }
+  } else {
+    res.send({ mes: "not logged in" });
   }
 
-  console.log(leagueTeamIds);
-  console.log(userCheck.length);
   try {
     if (userCheck.length === 0) {
       let code = await createLeagueCode();
-      console.log("code in post " + code);
       if (code === "error") {
         res.send({ mes: "error stage 2" });
       }
@@ -140,16 +141,43 @@ app.post("/saveTeam", auth, async (req, res) => {
       await leagues.insertOne(newLeagueSaved);
       res.send({ mes: "League saved" });
     } else {
-      console.log("I elsen");
-
       const leagueSaved = { user: userEmail, leagueIds: leagueTeamIds };
-      console.log(leagueSaved);
       await leagues.updateOne({ user: userEmail }, { $set: leagueSaved });
 
       res.send({ mes: "League saved" });
     }
   } catch (error) {
     console.log(error);
+    res.send({ mes: "error stage 2" });
+  }
+});
+
+app.post("/getTeamByLogin", auth, async (req, res) => {
+  const token = req.cookies.token;
+
+  let userCheck;
+  let userEmail;
+  if (token) {
+    try {
+      const user = jwt.verify(token, process.env.fplSecret);
+      userEmail = user.email;
+      userCheck = await leagues.find({ user: user.email }).toArray();
+    } catch (error) {
+      res.send({ mes: "error stage 1" });
+    }
+  } else {
+    res.send({ mes: "not logged in" });
+  }
+  try {
+    if (userCheck.length === 1) {
+      let data = await leagues.findOne({ user: userEmail });
+      let teamIds = data.leagueIds;
+
+      res.send({ mes: "success", ids: teamIds });
+    } else {
+      res.send({ mes: "no saved league" });
+    }
+  } catch {
     res.send({ mes: "error stage 2" });
   }
 });
@@ -194,11 +222,11 @@ app.post("/login", validateUser, async (req, res) => {
   }
 });
 
-app.get("/loggedIn", auth, (req, res) => {
+app.post("/loggedIn", auth, (req, res) => {
   res.send({ mes: "logged in" });
 });
 
-app.get("/logOut", auth, (req, res) => {
+app.post("/logOut", auth, (req, res) => {
   res.clearCookie("token");
   res.send({ mes: "logged out" });
 });

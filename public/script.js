@@ -3,20 +3,42 @@ let site = "index";
 
 let loggedIn;
 (async function () {
-  let response = await fetch("/loggedIn");
-  let resp = await response.json();
-  if (resp.mes === "logged in") {
+  let responseLoggedIn = await fetch("/loggedIn", {
+    method: "post",
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+  let respLoggedIn = await responseLoggedIn.json();
+
+  if (respLoggedIn.mes === "logged in") {
     loggedIn = true;
     _id("notLoggedInContinue").classList.add("hidden");
     _id("saveLeague").classList.remove("hidden");
+
+    let response = await fetch("/getTeamByLogin", {
+      method: "post",
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    response = await response.json();
+
+    if (response.mes === "success") {
+      _id("leagueLinkBox").classList.add("visible");
+    }
   } else {
     loggedIn = false;
+
+    if (getCookie("leagueIds")) {
+      _id("leagueLinkBox").classList.add("visible");
+    }
   }
 })();
-
-if (getCookie("leagueIds")) {
-  _id("leagueLinkBox").classList.add("visible");
-}
 
 //när man lägger till ett lag med id
 _id("enterId").addEventListener("click", (el) => {
@@ -144,10 +166,11 @@ async function saveLeague(e) {
   response = await response.json();
   if (response.mes === "League saved") {
     _id("showAddedTeams").insertAdjacentHTML("beforeend", "<p>success</>");
+    window.location = "/league";
   } else {
     _id("showAddedTeams").insertAdjacentHTML(
       "beforeend",
-      "<p>fail " + response.mes + " </>"
+      "<p>Error saving league</>"
     );
   }
 }
