@@ -37,29 +37,28 @@ let site = "league";
 
 async function getTeamIds() {
   let managerIds;
-  let path = window.location.pathname;
+  /*/ let path = window.location.pathname;
   console.log(path.length + " path: '" + path + "'");
   if (path.length > 8) {
     let sliceTest = path.slice(8);
     let code = sliceTest.replace("/", "");
     console.log(path.length + " path: '" + code + "'");
     managerIds = [];
-  } else {
-    let response = await fetch("/getTeamByLogin", {
-      method: "post",
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-    response = await response.json();
+  } /*/
+  let response = await fetch("/getTeamByLogin", {
+    method: "post",
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+  response = await response.json();
 
-    if (response.mes === "success") {
-      managerIds = response.ids;
-    } else {
-      managerIds = JSON.parse(getCookie("leagueIds"));
-    }
+  if (response.mes === "success") {
+    managerIds = response.ids;
+  } else {
+    managerIds = JSON.parse(getCookie("leagueIds"));
   }
 
   return managerIds;
